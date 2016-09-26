@@ -10,7 +10,7 @@ On Android you can choose from two location location providers:
 * **ANDROID_DISTANCE_FILTER_PROVIDER** (forked from [cordova-plugin-background-geolocation](https://github.com/christocracy/cordova-plugin-background-geolocation))
 * **ANDROID_ACTIVITY_PROVIDER**
 
-See wiki [Which provider should I use?](https://github.com/mauron85/cordova-plugin-background-geolocation/blob/master/PROVIDERS.md) for more information about providers.
+See [Which provider should I use?](https://github.com/mauron85/cordova-plugin-background-geolocation/blob/master/PROVIDERS.md) for more information about providers.
 
 ## Example Application
 
@@ -154,8 +154,9 @@ Configure options:
 | `notificationIconColor`   | `String` optional | Android      | The accent color to use for notification. Eg. **#4CAF50**.                                                                                                                                                                                                                                                                                         |
 | `notificationIconLarge`   | `String` optional | Android      | The filename of a custom notification icon. See android quirks.                                                                                                                                                                                                                                                                                    |
 | `notificationIconSmall`   | `String` optional | Android      | The filename of a custom notification icon. See android quirks.                                                                                                                                                                                                                                                                                    |
-| `locationProvider`        | `Number`          | Android      | Set location provider **@see** [wiki](https://github.com/mauron85/cordova-plugin-background-geolocation/wiki/Android-providers)                                                                                                                                                                                                                    |
+| `locationProvider`        | `Number`          | Android      | Set location provider **@see** [PROVIDERS.md](https://github.com/mauron85/cordova-plugin-background-geolocation/blob/master/PROVIDERS.md)                                                                                                                                                                                                          |
 | `activityType`            | `String`          | iOS          | [AutomotiveNavigation, OtherNavigation, Fitness, Other] Presumably, this affects iOS GPS algorithm. **@see** [Apple docs](https://developer.apple.com/library/ios/documentation/CoreLocation/Reference/CLLocationManager_Class/CLLocationManager/CLLocationManager.html#//apple_ref/occ/instp/CLLocationManager/activityType) for more information |
+| `pauseLocationUpdates`    | `Boolean`         | iOS          | Pauses location updates when app is paused (default: true)                                                                                                                                                                                                                                                                                         |
 | `url`                     | `String`          | all          | Server url where to send HTTP POST with recorded locations **@see** [HTTP locations posting](#http-locations-posting)                                                                                                                                                                                                                              |
 | `syncUrl`                 | `String`          | all          | Server url where to send fail to post locations **@see** [HTTP locations posting](#http-locations-posting)                                                                                                                                                                                                                                         |
 | `syncThreshold`           | `Number`          | all          | Specifies how many previously failed locations will be sent to server at once (default: 100)                                                                                                                                                                                                                                                       |
@@ -383,6 +384,8 @@ Optionally different url for batch sync can be defined by `option.syncUrl`. If `
 When only `option.syncUrl` is defined. Locations are send only in single batch, when number of locations reaches `option.syncTreshold`. (No individual location will be send)
 
 Request body of posted locations is always array, even when only one location is sent.
+
+Warning: `option.maxLocations` has to be larger than `option.syncTreshold`. It's recommended to be 2x larger. In other case location syncing might not work properly.
 
 ### Example of express (nodejs) server
 ```javascript
